@@ -24,7 +24,7 @@ sleep 5 # Startup time
 
 if [ "$(docker ps -q -f name=hema-api-service)" ]; then
     echo "------------------------------------------"
-    echo " SUCCESS! App is running at http://localhost:8000"
+    echo " SUCCESS! App is running at http://localhost:8001/hema/datas"
     echo "------------------------------------------"
 else
     echo " BUG DETECTED: Container crashed after start!"

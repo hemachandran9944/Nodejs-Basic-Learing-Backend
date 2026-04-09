@@ -1,21 +1,19 @@
-
-
-# FROM -Creact container Nodejs vression 18
-# ALPINE - Image size Creact sumall 
+# 1. Base Image
 FROM node:18-alpine
 
-# Container code working dractery
+# 2. Work Directory
 WORKDIR /app
 
-# Install Moudules
-COPY package*.json./
+# 3. Install Modules
+
+COPY package*.json ./
 RUN npm install
 
-# CODE file
+# 4. Copy Code
 COPY . .
 
-# post Number
-EXPOSE 8000
 
-# Run Commend
-CMD ["node","hema.js"]
+EXPOSE 3000
+
+# 6. Run Command
+CMD ["node", "hema.js"]

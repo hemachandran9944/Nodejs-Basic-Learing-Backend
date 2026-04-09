@@ -6,7 +6,7 @@ services:
     build: .
     container_name: hema-api-service
     ports:
-      - "8000:3000"
+      - "8001:3000"
     environment:
       # Inga unga Cluster URL irukku
       - MONGO_URL=mongodb://hemachandranhema8754_db_user:F09oZcrRvHjg9hvj@ac-cduwql2-shard-00-00.62bc372.mongodb.net:27017,ac-cduwql2-shard-00-01.62bc372.mongodb.net:27017,ac-cduwql2-shard-00-02.62bc372.mongodb.net:27017/Hemachandran_DB?ssl=true&replicaSet=atlas-fmbi4s-shard-0&authSource=admin&retryWrites=true&w=majority
