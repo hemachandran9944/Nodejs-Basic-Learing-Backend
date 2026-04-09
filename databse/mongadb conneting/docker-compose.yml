@@ -1,20 +1,12 @@
-version: '3.8'
+
 
 services:
-  # Verum API service mattum thaan, ithu direct-ah cloud cluster-oda connect aagum
-  api:
+  hema-api-service:
     build: .
+    image: hema-api-image:latest
     container_name: hema-api-service
     ports:
       - "8001:3000"
     environment:
-      # Inga unga Cluster URL irukku
-      - MONGO_URL=mongodb://hemachandranhema8754_db_user:F09oZcrRvHjg9hvj@ac-cduwql2-shard-00-00.62bc372.mongodb.net:27017,ac-cduwql2-shard-00-01.62bc372.mongodb.net:27017,ac-cduwql2-shard-00-02.62bc372.mongodb.net:27017/Hemachandran_DB?ssl=true&replicaSet=atlas-fmbi4s-shard-0&authSource=admin&retryWrites=true&w=majority
+      - MONGO_URL=${MONGO_URL}
     restart: always
-    # 🔍 BUG DETECTION logic
-    healthcheck:
-      test: ["CMD", "node", "-e", "require('http').get('http://localhost:3000/hema/datas', (r) => {if (r.statusCode !== 200) process.exit(1)})"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 15s

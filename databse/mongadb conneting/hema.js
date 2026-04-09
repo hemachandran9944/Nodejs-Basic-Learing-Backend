@@ -6,6 +6,8 @@ const  express = require('express');
 const mongoose_db = require('./db');
 const app  = express();
 const restfullapiS = require("./cureapis/api");
+const Posrt = 8000
+
 
 
 
@@ -31,7 +33,7 @@ app.use((req, res, next)=>{
 
 const server_const  = "Server Connecting Successfully and listening on Port 8000";
 
-app.listen (8000,()=>{
+app.listen (Posrt,()=>{
         console.log(server_const);     
 });
 
