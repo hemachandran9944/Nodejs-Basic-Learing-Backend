@@ -1,0 +1,51 @@
+name: Hema Docker Pipeline
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Build New Image
+        run: docker compose build
+
+      - name: Smart Deployment & Rollback logic
+        env:
+          MONGO_URL: ${{ secrets.mongocluster_Database }}
+        run: |
+          # 1. New container-ah vera oru name-la (test-container) start panrom
+          echo " Testing new version..."
+          docker run -d --name test-app -e MONGO_URL=$MONGO_URL hema-api-image:latest
+          
+          # 2. wait 15 seconds  
+          sleep 15
+          
+          # 3. Health Check
+          STATUS=$(docker inspect -f '{{.State.Running}}' test-app)
+
+          if [ "$STATUS" = "true"  ]; then
+            echo " New code is PERFECT! Replacing old server..."
+            
+            # Pazhaya server-ah stop panni delete panrom
+            docker compose down || true 
+            
+            # Puthu image-ah main server-ah start panrom
+            docker compose up -d
+            
+            # Test container-ah clean panrom
+            docker rm -f test-app
+          else
+            echo " ERROR in new code! Staying with old server..."
+            
+            # Puthu (failed) container-ah remove panrom
+            docker rm -f test-app
+            
+            # Pipeline-ah fail panna veikirom (so ungaluku red mark kaatum)
+            exit 1
+          fi
